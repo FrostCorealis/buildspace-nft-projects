@@ -41,7 +41,15 @@ contract StoryStarters is ERC721URIStorage, VRFConsumerBase, Ownable {
               "Two kittens are", 
               "Two bards are", 
               "Three elves are", 
-              "Four bakers are"
+              "Four bakers are",
+              "Five spicers are",
+              "A coder is",
+              "A crocodile is",
+              "Two dragons are",
+              "A knight is",
+              "A princess is",
+              "Five robots are",
+              "An astronaut is"
             ];
 
   string[] activity = [
@@ -126,7 +134,7 @@ contract StoryStarters is ERC721URIStorage, VRFConsumerBase, Ownable {
      */
 
 
-  constructor(address vrfCoordinator, address link, bytes32 keyHash, uint256 fee)
+  constructor()
       VRFConsumerBase(
           0xb3dCcb4Cf7a26f6cf6B120Cf5A73875B7BBc655B, 
           0x01BE23585060835E02B77ef475b0Cc51aA1e0709)
@@ -145,11 +153,11 @@ contract StoryStarters is ERC721URIStorage, VRFConsumerBase, Ownable {
     }
 
   function fulfillRandomness(bytes32 requestId, uint256 randomness) internal override {
-    randomResult = randomness % 2021;
+    randomResult = randomness;
   }
 
 
-  // there are 15 different characters  
+  // there are 23 different characters  
   function pickRandomCharacter(uint256 tokenId) public view returns (string memory) {
     uint256 rand = random(string(abi.encodePacked("character", Strings.toString(tokenId))));
     rand = randomResult % character.length;

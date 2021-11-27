@@ -22,86 +22,14 @@ contract StoryStarters is ERC721URIStorage, VRFConsumerBase, Ownable {
   address public linkToken;
 
 
-  string baseSvg = "<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='xMinYMin meet' viewBox='0 0 350 350'><style>.base { fill: white; font-family: serif; font-size: 27px; }</style><rect width='100%' height='100%' fill='firebrick'/><text x='50%' y='40%' class='base' dominant-baseline='middle' text-anchor='middle'>";
+  string baseSvg = "<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='xMinYMin meet' viewBox='0 0 350 350'><style>.base { fill: white; font-family: serif; font-size: 24px; }</style><rect width='100%' height='100%' fill='firebrick' /><text x='50%' y='50%' class='base' dominant-baseline='middle' text-anchor='middle'>";
 
-  string[] characters = [
-              "A whale is", 
-              "An ape is", 
-              "A chef is", 
-              "A dancer is", 
-              "An artist is", 
-              "An electrician is", 
-              "A ghost is", 
-              "A wizard is", 
-              "A detective is", 
-              "A dog is", 
-              "Two paladins are", 
-              "Two kittens are", 
-              "Two bards are", 
-              "Three elves are", 
-              "Four bakers are",
-              "Five spicers are",
-              "A coder is",
-              "A crocodile is",
-              "Two dragons are",
-              "A knight is",
-              "A princess is",
-              "Five robots are",
-              "An astronaut is"
-            ];
-
-  string[] activities = [
-              " ordering groceries", 
-              " sipping tea", 
-              " hiking", 
-              " practicing yoga", 
-              " eating pizza", 
-              " exploring", 
-              " getting rugged", 
-              " playing Stardew Valley", 
-              " painting", 
-              " buying the dip", 
-              " climbing a wall", 
-              " jumping over a box", 
-              " running", 
-              " chasing a thief", 
-              " cowering behind a bush",
-              " lifing weights",
-              " singing"
-            ];
-
-  string[] locations = [
-             " in London.", 
-             " at the beach.", 
-             " in Iceland.", 
-             " inside a tall building.", 
-             " at the corner market.", 
-             " in a cave.", 
-             " in a coffee shop.", 
-             " in the backyard.", 
-             " on the moon.", 
-             " in the metaverse", 
-             " in a tattoo parlor.", 
-             " in the forest.", 
-             " behind the gym.", 
-             " at the stadium.", 
-             " at Machu Picchu.",
-             " under the bridge.",
-             " beside the cliff.",
-             " beneath the city.",
-             " above the river."
-          ];
-
-  struct StoryStarter {
-        string character;
-        string activity;
-        string location;
-    }
-
-  mapping(bytes32 => address) requestToSender;
-  mapping(bytes32 => uint256) requestToTokenId;  
+  string[] adjectives = ["Enticing", "Captivating", "Magnetic", "Generous", "Courageous", "Athletic", "Compassionate", "Strategic", "Clumsy", "Adventurous", "Cheerful", "Determined", "Creative", "Venerable", "Frenly","Hungry", "Tired", "Cuddly", "Svelte", "Elegant", "Sketchy", "Courageous", "Brilliant"];
+  string[] nouns = ["Dog", "Cat", "Coder", "Whale", "Ape", "Astronaut", "Author", "Chef", "Gardener", "Bartender", "Tree", "Admiral", "Bodyguard", "Mapmaker", "Carpenter", "Mouse", "Eggplant"];
+  string[] verbs = ["Running", "Climbing", "Singing", "Drawing", "Exploring", "Digging", "Dancing", "Cleaning", "Building", "Laughing", "Praying", "Eating", "Deciphering", "Shopping", "Hiking", "Exploring", "Napping", "Bathing", "Walking"];
 
 
+  
 /**
      network: rinkeby
      vrf coordinator: 0xb3dCcb4Cf7a26f6cf6B120Cf5A73875B7BBc655B
@@ -148,14 +76,10 @@ contract StoryStarters is ERC721URIStorage, VRFConsumerBase, Ownable {
       fee = 0.1 * 10 ** 18;
   }
 
-  function requestNewStoryStarter()public returns (bytes32) {
-      require(
-          LINK.balanceOf(address(this)) >= fee,
-          "You don't have enough LINK.  Please visit the faucet to fill the contract."
-      );
-      bytes32 requestId = requestRandomness(keyHash, fee);
+  function requestNewStoryStarter()public returns (bytes32 requestId) {
+      require(LINK.balanceOf(address(this)) >= fee, "You don't have enough LINK.  Please visit the faucet to fill the contract.");
+      requestId = requestRandomness(keyHash, fee);
       //requestToCharacterName[requestId] = name;
-      requestToSender[requestId] = msg.sender;
       return requestId;
   }
 
@@ -163,21 +87,21 @@ contract StoryStarters is ERC721URIStorage, VRFConsumerBase, Ownable {
       internal
       override
   {
-      string memory character = characters[randomNumber % characters.length];   //length = 23
-      string memory activity = activities[randomNumber % activities.length];     //length = 17
-      string memory location = locations[randomNumber % locations.length];     //length = 19
+      string memory adjective = adjectives[randomNumber % adjectives.length];   //length = 23
+      string memory noun = nouns[randomNumber % nouns.length];     //length = 17
+      string memory verb= verbs[randomNumber % verbs.length];     //length = 19
       uint256 newItemId = _tokenIds.current();
 
+      string memory combinedWord = string(abi.encodePacked(adjective, noun, verb));
 
-      string memory name = string(abi.encodePacked(character, activity, location));
-      string memory finalSvg = string(abi.encodePacked(baseSvg, character, "</text><text x='50%' y='50%' class='base' dominant-baseline='middle' text-anchor='middle'>", activity, "</text><text x='50%' y='60%' class='base' dominant-baseline='middle' text-anchor='middle'>", location, "</text></svg>"));
-    
+      string memory finalSvg = string(abi.encodePacked(baseSvg, adjective, noun, verb, "</text></svg>"));
+
       string memory json = Base64.encode(
           bytes(
               string(
                   abi.encodePacked(
                       '{"name": "',
-                      name,
+                      combinedWord,
                       '", "description": "A word sketch to ignite your imagination.", "image": "data:image/svg+xml;base64,',
                       Base64.encode(bytes(finalSvg)),
                       '"}'

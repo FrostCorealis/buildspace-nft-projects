@@ -78,18 +78,15 @@ contract StoryStarters is ERC721URIStorage, VRFConsumerBase, Ownable {
 
   function requestNewStoryStarter()public returns (bytes32 requestId) {
       require(LINK.balanceOf(address(this)) >= fee, "You don't have enough LINK.  Please visit the faucet to fill the contract.");
-      requestId = requestRandomness(keyHash, fee);
-      //requestToCharacterName[requestId] = name;
-      return requestId;
+      return requestRandomness(keyHash, fee);
   }
 
-  function fulfillRandomness(bytes32 requestId, uint256 randomNumber)
-      internal
-      override
-  {
-      string memory adjective = adjectives[randomNumber % adjectives.length];   //length = 23
-      string memory noun = nouns[randomNumber % nouns.length];     //length = 17
-      string memory verb= verbs[randomNumber % verbs.length];     //length = 19
+  function fulfillRandomness(bytes32 requestId, uint256 randomness) internal override {
+        randomResult = randomness;
+  
+      string memory adjective = adjectives[randomResult % adjectives.length];   //length = 23
+      string memory noun = nouns[randomResult % nouns.length];     //length = 17
+      string memory verb= verbs[randomResult % verbs.length];     //length = 19
       uint256 newItemId = _tokenIds.current();
 
       string memory combinedWord = string(abi.encodePacked(adjective, noun, verb));

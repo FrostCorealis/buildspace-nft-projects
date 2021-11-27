@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.0;
 
-// We need some util functions for strings.
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
@@ -13,22 +12,16 @@ contract MyEpicNFT is ERC721URIStorage {
   using Counters for Counters.Counter;
   Counters.Counter private _tokenIds;
 
-  // This is our SVG code. All we need to change is the word that's displayed. Everything else stays the same.
-  // So, we make a baseSvg variable here that all our NFTs can use.
-  // We split the SVG at the part where it asks for the background color.
   string svgPartOne = "<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='xMinYMin meet' viewBox='0 0 350 350'><style>.base { fill: white; font-family: serif; font-size: 24px; }</style><rect width='100%' height='100%' fill='";
   string svgPartTwo = "'/><text x='50%' y='50%' class='base' dominant-baseline='middle' text-anchor='middle'>";
 
-  // I create three arrays, each with their own theme of random words.
-  // Pick some random funny words, names of anime characters, foods you like, whatever! 
+
   string[] firstWords = ["Enticing", "Captivating", "Magnetic", "Generous", "Courageous", "Athletic", "Compassionate", "Strategic", "Clumsy", "Adventurous", "Cheerful", "Determined", "Creative", "Venerable", "Frenly"];
   string[] secondWords = ["Dog", "Cat", "Coder", "Whale", "Ape", "Astronaut", "Author", "Chef", "Gardener", "Bartender", "Tree", "Admiral", "Bodyguard", "Mapmaker", "Carpenter"];
   string[] thirdWords = ["Running", "Climbing", "Singing", "Drawing", "Exploring", "Digging", "Dancing", "Cleaning", "Building", "Laughing", "Praying", "Eating", "Deciphering", "Shopping", "Hiking"];
 
-  // Get fancy with it! Declare a bunch of colors.
   string[] colors = ["slategray", "#08C2A8", "black", "purple", "blue", "green"];
 
-  event NewEpicNFTMinted(address sender, uint256 tokenId);
 
   constructor() ERC721 ("New Frens", "FRENS") {
     console.log("Please let this actually work with the front end.");
@@ -112,6 +105,6 @@ contract MyEpicNFT is ERC721URIStorage {
   
     _tokenIds.increment();
     console.log("An NFT w/ ID %s has been minted to %s", newItemId, msg.sender);
-    emit NewEpicNFTMinted(msg.sender, newItemId);
+  
   }
 }

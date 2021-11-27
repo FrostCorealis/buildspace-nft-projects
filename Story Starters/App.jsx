@@ -9,7 +9,7 @@ const TWITTER_HANDLE = 'FrostCorealis';
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 const RARIBLE_LINK = 'https://rinkeby.rarible.com/collection/0x74b2f1e6fdd7fd14108dd0f5823dfbc2fff268be';
 const OPENSEA_LINK = 'https://testnets.opensea.io/collection/story-starters-ue9lxn3eim';
-const CONTRACT_ADDRESS = "0x1445d4738aa8A25C55994789Cc26390871CB057E";
+const CONTRACT_ADDRESS = "0x7A592D2b0ca122798c6d4fd09707DA192dd6bcB9";
 
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState("");
@@ -96,10 +96,10 @@ const askContractTorequestNewStoryStarter = async () => {
       console.log("Paying for gas...")
       let nftTxn = await connectedContract.requestNewStoryStarter();
 
-      console.log("Mining...please wait.")
+      console.log("Minting...please wait.")
       await nftTxn.wait();
         
-      console.log(`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`);
+      console.log(`Minted, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`);
 
     } else {
       console.log("Ethereum object doesn't exist!");

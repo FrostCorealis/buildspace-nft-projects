@@ -9,8 +9,7 @@ const TWITTER_HANDLE = 'FrostCorealis';
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 const RARIBLE_LINK = 'https://rinkeby.rarible.com/collection/0x74b2f1e6fdd7fd14108dd0f5823dfbc2fff268be';
 const OPENSEA_LINK = 'https://testnets.opensea.io/collection/story-starters-ue9lxn3eim';
-const CONTRACT_ADDRESS = "0x74B2F1E6fDD7fD14108dd0f5823dFBc2FFf268Be";
-const TOTAL_MINT_COUNT = 50;
+const CONTRACT_ADDRESS = "0x1445d4738aa8A25C55994789Cc26390871CB057E";
 
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState("");
@@ -84,7 +83,7 @@ const connectWallet = async () => {
     }
   }
 
-const askContractToMintNft = async () => {
+const askContractTorequestNewStoryStarter = async () => {
   
   try {
     const { ethereum } = window;
@@ -94,8 +93,8 @@ const askContractToMintNft = async () => {
       const signer = provider.getSigner();
       const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, StoryStarters.abi, signer);
 
-      console.log("Going to pop wallet now to pay gas...")
-      let nftTxn = await connectedContract.makeStoryStarter();
+      console.log("Paying for gas...")
+      let nftTxn = await connectedContract.requestNewStoryStarter();
 
       console.log("Mining...please wait.")
       await nftTxn.wait();
@@ -136,7 +135,7 @@ const askContractToMintNft = async () => {
           {currentAccount === "" ? (
             renderNotConnectedContainer()
           ) : (
-            <button onClick={askContractToMintNft} className="cta-button connect-wallet-button">
+            <button onClick={askContractTorequestNewStoryStarter} className="cta-button connect-wallet-button">
               Mint NFT
             </button>
           )}

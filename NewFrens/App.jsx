@@ -7,10 +7,10 @@ import twitterLogo from './assets/twitter-logo.svg';
 const BUILDSPACE_LINK = 'https://buildspace.so';
 const TWITTER_HANDLE = 'FrostCorealis';
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
-const RARIBLE_LINK = 'https://rinkeby.rarible.com/collection/0x717B5b01952cc2143dD35240C9a4A8242d024F9d';
-const OPENSEA_LINK = 'https://testnets.opensea.io/collection/new-frens-v3';
+const RARIBLE_LINK = 'https://rinkeby.rarible.com/collection/0x72ce4b2aeb4bc01859e95060432c86c5cdf8a60c';
+const OPENSEA_LINK = 'https://testnets.opensea.io/collection/new-frens-h8wtiq0mah';
 const TOTAL_MINT_COUNT = 50;
-const CONTRACT_ADDRESS = "0x717b5b01952cc2143dd35240c9a4a8242d024f9d";
+const CONTRACT_ADDRESS = "0x72Ce4B2Aeb4BC01859E95060432c86C5cdf8A60c";
 
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState("");
@@ -73,13 +73,6 @@ const connectWallet = async () => {
         const signer = provider.getSigner();
         const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, myEpicNft.abi, signer);
 
-        // THIS IS THE MAGIC SAUCE.
-        // This will essentially "capture" our event when our contract throws it.
-        // If you're familiar with webhooks, it's very similar to that!
-        connectedContract.on("NewEpicNFTMinted", (from, tokenId) => {
-          console.log(from, tokenId.toNumber())
-          alert(`Hey there! We've minted your NFT.  Your new fren is on the way to your wallet! Your new fren may be blank for a little while as it can take up to 10 minutes for NFTs to appear on OpenSea. Here's the link: https://testnets.opensea.io/assets/${CONTRACT_ADDRESS}/${tokenId.toNumber()}`)
-        });
 
         console.log("Setup event listener!")
 
@@ -101,13 +94,13 @@ const askContractToMintNft = async () => {
       const signer = provider.getSigner();
       const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, myEpicNft.abi, signer);
 
-      console.log("Going to pop wallet now to pay gas...")
+      console.log("Taking care of gas fees...")
       let nftTxn = await connectedContract.makeAnEpicNFT();
 
-      console.log("Mining...please wait.")
+      console.log("Locating your New Fren...please wait.")
       await nftTxn.wait();
         
-      console.log(`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`);
+      console.log(`Your New Fren is here!  See transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`);
 
     } else {
       console.log("Ethereum object doesn't exist!");
@@ -143,7 +136,7 @@ const askContractToMintNft = async () => {
             renderNotConnectedContainer()
           ) : (
             <button onClick={askContractToMintNft} className="cta-button connect-wallet-button">
-              Mint NFT
+              Mint New Fren
             </button>
           )}
           <p className="spacer-text">{' '}</p>

@@ -21,7 +21,8 @@ contract StoryStarters is ERC721URIStorage, VRFConsumerBase, Ownable {
   address public vrfCoordinator;
   address public linkToken;
 
-  string baseSvg = "<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='xMinYMin meet' viewBox='firebrick'><style>.base { fill: white; font-family: serif; font-size: 27px; }</style><rect width='100%' height='100%' fill='black' /><text x='50%' y='40%' class='base' dominant-baseline='middle' text-anchor='middle'>";
+
+  string baseSvg = "<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='xMinYMin meet' viewBox='0 0 350 350'><style>.base { fill: white; font-family: serif; font-size: 27px; }</style><rect width='100%' height='100%' fill='firebrick'/><text x='50%' y='40%' class='base' dominant-baseline='middle' text-anchor='middle'>";
 
   string[] characters = [
               "A whale is", 
@@ -63,7 +64,7 @@ contract StoryStarters is ERC721URIStorage, VRFConsumerBase, Ownable {
               " climbing a wall", 
               " jumping over a box", 
               " running", 
-              " chasing a theif", 
+              " chasing a thief", 
               " cowering behind a bush",
               " lifing weights",
               " singing"
@@ -97,7 +98,8 @@ contract StoryStarters is ERC721URIStorage, VRFConsumerBase, Ownable {
         string location;
     }
 
-  mapping(bytes32 => address) requestToSender;  
+  mapping(bytes32 => address) requestToSender;
+  mapping(bytes32 => uint256) requestToTokenId;  
 
 
 /**

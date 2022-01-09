@@ -2,14 +2,15 @@ import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import './styles/App.css';
 import StoryStarters from './utils/StoryStarters.json';
-import twitterLogo from './assets/twitter-logo.svg';
 
 const BUILDSPACE_LINK = 'https://buildspace.so';
+const CHAINLINK_LINK = 'https://docs.chain.link';
+const REPLIT_LINK = 'https://replit.com'
 const TWITTER_HANDLE = 'FrostCorealis';
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
-const RARIBLE_LINK = 'https://rinkeby.rarible.com/collection/0x74b2f1e6fdd7fd14108dd0f5823dfbc2fff268be';
-const OPENSEA_LINK = 'https://testnets.opensea.io/collection/story-starters-ue9lxn3eim';
-const CONTRACT_ADDRESS = "0x7A592D2b0ca122798c6d4fd09707DA192dd6bcB9";
+const RARIBLE_LINK = 'https://rinkeby.rarible.com/collection/0x5f984f4b44a545861733be21bb1ea5058ad495f0/items';
+const OPENSEA_LINK = 'https://testnets.opensea.io/collection/story-starters-ujvsqtcyqv';
+const CONTRACT_ADDRESS = "0x5F984F4B44A545861733be21bB1EA5058aD495F0";
 
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState("");
@@ -36,9 +37,7 @@ const App = () => {
    }
 };
 
-  /*
-  * Implement your connectWallet method here
-  */
+//connectWallet method 
 const connectWallet = async () => {
   try {
     const { ethereum } = window;
@@ -47,9 +46,7 @@ const connectWallet = async () => {
       alert("Get MetaMask!");
       return;
     }
-    /*
-     * Fancy method to request access to account.
-     */
+    //request access to account.
     const accounts = await ethereum.request({ method: "eth_requestAccounts" });
 
     console.log("Connected", accounts[0]);
@@ -60,20 +57,17 @@ const connectWallet = async () => {
   }
 };
 
-  // Setup our listener.
+  //listener
   const setupEventListener = async () => {
-    // Most of this looks the same as our function askContractToMintNft
     try {
       const { ethereum } = window;
 
       if (ethereum) {
-        // Same stuff again
         const provider = new ethers.providers.Web3Provider(ethereum);
         const signer = provider.getSigner();
         const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, StoryStarters.abi, signer);
 
-
-        console.log("Setup event listener!")
+        console.log("Event listener up!")
 
       } else {
         console.log("Ethereum object doesn't exist!");
@@ -83,7 +77,7 @@ const connectWallet = async () => {
     }
   }
 
-const askContractTorequestNewStoryStarter = async () => {
+const askContractToMintNft = async () => {
   
   try {
     const { ethereum } = window;
@@ -94,12 +88,12 @@ const askContractTorequestNewStoryStarter = async () => {
       const connectedContract = new ethers.Contract(CONTRACT_ADDRESS, StoryStarters.abi, signer);
 
       console.log("Paying for gas...")
-      let nftTxn = await connectedContract.requestNewStoryStarter();
+      let nftTxn = await connectedContract.igniteImagination();
 
-      console.log("Minting...please wait.")
+      console.log("Contacting the VRF before preparing your Story Starter...")
       await nftTxn.wait();
         
-      console.log(`Minted, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`);
+      console.log(`Your Story Starter is ready for you! See transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`);
 
     } else {
       console.log("Ethereum object doesn't exist!");
@@ -119,11 +113,7 @@ const askContractTorequestNewStoryStarter = async () => {
   useEffect(() => {
     checkIfWalletIsConnected();
   }, []);
-//HERE
-
-  /*
-  * Added a conditional render! We don't want to show Connect to Wallet if we're already conencted :).
-  */
+ 
   return (
     <div className="App">
       <div className="container">
@@ -135,8 +125,8 @@ const askContractTorequestNewStoryStarter = async () => {
           {currentAccount === "" ? (
             renderNotConnectedContainer()
           ) : (
-            <button onClick={askContractTorequestNewStoryStarter} className="cta-button connect-wallet-button">
-              Mint NFT
+            <button onClick={askContractToMintNft} className="cta-button connect-wallet-button">
+              Mint a Story Starter
             </button>
           )}
           <p className="spacer-text">{' '}</p>
@@ -157,19 +147,29 @@ const askContractTorequestNewStoryStarter = async () => {
         </div>
 
         <div className="footer-container">
-          <p className="footer-text"> built on <a
+          <p className="footer-text"> built on{' '}<a
             className="footer-text"
             href={BUILDSPACE_LINK}
             target="_blank"
             rel="noreferrer"
-          >{' '}buildspace 🦄</a></p>
-          <p className="footer-text">by    
+          >{' '}buildspace 🦄</a>{' '}by    
           <a
             className="footer-text"
             href={TWITTER_LINK}
             target="_blank"
             rel="noreferrer"
-          >{' '}@FrostCorealis</a>
+          >{' '}Frost Corealis</a>
+           <p className="footer-text"> with special thanks to{' '}<a
+            className="footer-text"
+            href={CHAINLINK_LINK}
+            target="_blank"
+            rel="noreferrer"
+          >{' '}chainlink</a>{' '}and{' '}<a
+            className="footer-text"
+            href={REPLIT_LINK}
+            target="_blank"
+            rel="noreferrer"
+          >{' '}replit</a></p>
            
           </p>
         </div>

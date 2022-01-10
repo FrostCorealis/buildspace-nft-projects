@@ -8,9 +8,11 @@ const CHAINLINK_LINK = 'https://docs.chain.link';
 const REPLIT_LINK = 'https://replit.com'
 const TWITTER_HANDLE = 'FrostCorealis';
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
-const RARIBLE_LINK = 'https://rinkeby.rarible.com/collection/0x5f984f4b44a545861733be21bb1ea5058ad495f0/items';
-const OPENSEA_LINK = 'https://testnets.opensea.io/collection/story-starters-ujvsqtcyqv';
-const CONTRACT_ADDRESS = "0x5F984F4B44A545861733be21bB1EA5058aD495F0";
+const RARIBLE_LINK = 'https://rinkeby.rarible.com/collection/0x6a5b7715b79a7cf20b74dd27fd9e561c8ade4925/items';
+const OPENSEA_LINK = 'https://testnets.opensea.io/collection/story-starters-y2khy4asil';
+const CONTRACT_ADDRESS = "0x6a5b7715b79A7cf20b74dd27FD9E561c8aDE4925";
+
+// const TOTAL_MINT_COUNT = 101;
 
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState("");

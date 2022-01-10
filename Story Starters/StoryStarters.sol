@@ -33,7 +33,7 @@ contract StoryStarters is ERC721URIStorage, VRFConsumerBase {
     string public svgPartThree;
     string public svgPartFour;
 
-    // there are 23 characters    
+    // there are 29 characters    
     string[] characters = [
         "A whale is", 
         "An ape is", 
@@ -57,38 +57,46 @@ contract StoryStarters is ERC721URIStorage, VRFConsumerBase {
         "Two librarians are",
         "Four axolotl are",
         "A mantis is",
-        "A wolf is"
+        "A wolf is",
+        "Two bumblebees are",
+        "A tired welder is",
+        "A famous trucker is",
+        "A fruit bat is",
+        "Two happy dogs are",
+        "A soldier is"
     ];
     
-    // there are 21 actions 
+    // there are 23 actions 
     string[] actions = [
         "ordering groceries", 
         "sipping tea", 
-        "hiking", 
+        "lifting weights", 
         "practicing yoga", 
         "eating pizza", 
-        "exploring", 
+        "carefully exploring", 
         "getting rugged", 
         "playing Stardew Valley", 
-        "painting", 
+        "happily painting", 
         "buying the dip", 
         "climbing a wall", 
         "jumping over a box", 
-        "running", 
-        "chasing a theif", 
+        "running intervals", 
+        "chasing a thief", 
         "cowering behind a bush",
         "avoiding zombies",
         "arguing with a troll",
         "driving a golf cart",
         "solving a crossword puzzle",
-        "walking in the park",
-        "cooking a feast"
+        "walking slowly",
+        "cooking a feast",
+        "building a snowman",
+        "debugging a contract"
     ];
 
     // there are 19 locations 
     string[] locations = [
         "in London.", 
-        "at the beach.", 
+        "on the beach.", 
         "in Iceland.", 
         "inside a tall building.", 
         "at the corner market.", 
@@ -135,9 +143,9 @@ contract StoryStarters is ERC721URIStorage, VRFConsumerBase {
         keyHash = 0x2ed0feb3e7fd2022120aa84fab1945545a9f2ffc9076fd6156fa96eaff4c1311;
         fee = 0.1 * 10 ** 18;
 
-        // initialize range of SVG Parameters to be chosen from
+        // SVG in sections to accomodate text
         
-        svgPartOne = "<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='xMinYMin meet' viewBox='0 0 350 350'><style>.base { fill: lemonchiffon; font-family: serif; font-size: 29px; }</style><rect width='100%' height='100%' fill='indigo' /><text x='50%' y='35%' class='base' dominant-baseline='middle' text-anchor='middle'>";
+        svgPartOne = "<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='xMinYMin meet' viewBox='0 0 350 350'><style>.base { fill: black; font-family: serif; font-size: 29px; }</style><defs><linearGradient id='grad3' x1='0%' y1='0%' x2='100%' y2='0%'><stop offset='0%' style='stop-color:rgb(255,255,0);stop-opacity:1' /><stop offset='100%' style='stop-color:rgb(255,0,0);stop-opacity:1' /></linearGradient></defs><rect width='100%' height='100%' fill='url(#grad3)' /><text x='50%' y='35%' class='base' dominant-baseline='middle' text-anchor='middle'>";
         svgPartTwo = "</text><text x='50%' y='50%' class='base' dominant-baseline='middle' text-anchor='middle'>";
         svgPartThree = "</text><text x='50%' y='65%' class='base' dominant-baseline='middle' text-anchor='middle'>";
         svgPartFour= "</text></svg>";
@@ -181,13 +189,13 @@ contract StoryStarters is ERC721URIStorage, VRFConsumerBase {
 
   function generateSVG(uint _randomNumber) internal view returns(string memory finalSvg){
 
-    uint grabChar = (_randomNumber % 23) + 1;
+    uint grabChar = (_randomNumber % 29);
     string memory character = characters[grabChar];
 
-    uint grabAct = (_randomNumber % 21) + 1;
+    uint grabAct = (_randomNumber % 23);
     string memory action = actions[grabAct];
 
-    uint grabLoc = (_randomNumber % 19) + 1;
+    uint grabLoc = (_randomNumber % 19);
     string memory location = locations[grabLoc];
 
     finalSvg = string(abi.encodePacked(svgPartOne, character, svgPartTwo, action, svgPartThree, location, svgPartFour));
